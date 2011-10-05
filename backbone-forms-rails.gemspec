@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Jason Morrison"]
   s.email       = ["jmorrison@thoughtbot.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Rails asset wrapper for backbone-forms}
+  s.description = %q{Use the backbone-forms library https://github.com/powmedia/backbone-forms: a "Form framework for BackboneJS with nested forms, editable lists and validation"}
 
   s.rubyforge_project = "backbone-forms-rails"
 
