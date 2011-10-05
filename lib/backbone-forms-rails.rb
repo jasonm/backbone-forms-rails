@@ -1,9 +1,9 @@
-require "backbone-forms-rails/version"
+require "backbone/forms/rails/version"
+require 'backbone/forms/rails/engine'
 
 module Backbone
   module Forms
     module Rails
-      # Your code goes here...
     end
   end
 end
