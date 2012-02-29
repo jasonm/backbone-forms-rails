@@ -1,798 +1,569 @@
-;(function() {
-    
-    var helpers = {};
-    
-    /**
-     * This function is used to transform the key from a schema into the title used in a label.
-     * (If a specific title is provided it will be used instead).
-     * 
-     * By default this converts a camelCase string into words, i.e. Camel Case
-     * If you have a different naming convention for schema keys, replace this function.
-     * 
-     * @param {String}  Key
-     * @return {String} Title
-     */
-    helpers.keyToTitle = function(str) {
-        //Add spaces
-        var str = str.replace(/([A-Z])/g, ' $1');
+<!DOCTYPE html>
+<html>
+  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# githubog: http://ogp.me/ns/fb/githubog#">
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>404 - GitHub</title>
+    <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub" />
+    <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
-        //Uppercase first character
-        str = str.replace(/^./, function(str) { return str.toUpperCase(); });
-
-        return str;
-    };
-
-    /**
-     * Helper to create a template with the {{mustache}} style tags. Template settings are reset
-     * to user's settings when done to avoid conflicts.
-     * @param {String}      Template string
-     * @return {Template}   Compiled template
-     */
-    helpers.createTemplate = function(str) {
-        //Store user's template options 
-        var _interpolateBackup = _.templateSettings.interpolate;
-
-        //Set custom template settings
-        _.templateSettings.interpolate = /\{\{(.+?)\}\}/g
-
-        var template = _.template(str);
-
-        //Reset to users' template settings
-        _.templateSettings.interpolate = _interpolateBackup;
-
-        return template;
-    };
     
     
-    /**
-     * Return the editor constructor for a given schema 'type'.
-     * Accepts strings for the default editors, or the reference to the constructor function
-     * for custom editors
-     * 
-     * @param {String|Function} The schema type e.g. 'Text', 'Select', or the editor constructor e.g. editors.Date
-     * @param {Object}          Options to pass to editor, including required 'key', 'schema'
-     * @return {Mixed}          An instance of the mapped editor
-     */
-    helpers.createEditor = function(schemaType, options) {
-        var constructorFn;
 
-        if (_.isString(schemaType))
-            constructorFn = editors[schemaType];
-        else
-            constructorFn = schemaType;
+    
 
-        return new constructorFn(options);
+    <link href="https://a248.e.akamai.net/assets.github.com/stylesheets/bundles/github-c2f83c57a14d5e54d816673f52563d987fe2821f.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="https://a248.e.akamai.net/assets.github.com/stylesheets/bundles/github2-34d96ae148c427d3106177152ac475d7df36c780.css" media="screen" rel="stylesheet" type="text/css" />
+    
+
+    
+  </head>
+
+
+  <body class="logged_out   vis-public env-production " data-blob-contribs-enabled="yes">
+    
+    
+    
+
+      <div id="header" class="true clearfix">
+        <div class="container clearfix">
+          <a class="site-logo" href="https://github.com">
+            <!--[if IE]>
+            <img alt="GitHub" class="github-logo" src="https://a248.e.akamai.net/assets.github.com/images/modules/header/logov7.png?1323882716" />
+            <img alt="GitHub" class="github-logo-hover" src="https://a248.e.akamai.net/assets.github.com/images/modules/header/logov7-hover.png?1324325358" />
+            <![endif]-->
+            <img alt="GitHub" class="github-logo-4x" height="30" src="https://a248.e.akamai.net/assets.github.com/images/modules/header/logov7@4x.png?1323882716" />
+            <img alt="GitHub" class="github-logo-4x-hover" height="30" src="https://a248.e.akamai.net/assets.github.com/images/modules/header/logov7@4x-hover.png?1324325358" />
+          </a>
+
+                  <!--
+      make sure to use fully qualified URLs here since this nav
+      is used on error pages on other domains
+    -->
+    <ul class="top-nav logged_out">
+        <li class="pricing"><a href="https://github.com/plans">Signup and Pricing</a></li>
+        <li class="explore"><a href="https://github.com/explore">Explore GitHub</a></li>
+      <li class="features"><a href="https://github.com/features">Features</a></li>
+        <li class="blog"><a href="https://github.com/blog">Blog</a></li>
+      <li class="login"><a href="https://github.com/login?return_to=%2Fpowmedia%2Fbackbone-forms%2Fblob%2Fmaster%2Fsrc%2Fbackbone-forms.js">Login</a></li>
+    </ul>
+
+
+
+          
+        </div>
+      </div>
+
+      
+
+        <div class="site clearfix">
+          <div class="container">
+            
+
+<style type="text/css">
+    #header{
+        border-bottom: 0;
     }
-    
-    /**
-     * Triggers an event that can be cancelled. Requires the user to invoke a callback. If false
-     * is passed to the callback, the action does not run.
-     * 
-     * @param {Mixed}       Instance of Backbone model, view, collection to trigger event on
-     * @param {String}      Event name
-     * @param {Array}       Arguments to pass to the event handlers
-     * @param {Function}    Callback to run after the event handler has run.
-     *                      If any of them passed false or error, this callback won't run
-     */ 
-    helpers.triggerCancellableEvent = function(subject, event, arguments, callback) {
-        var eventHandlers = subject._callbacks[event] || [];
-        
-        if (!eventHandlers.length) return callback();
-        
-        var fn = eventHandlers[0][0],
-            context = eventHandlers[0][1] || this;
-        
-        //Add the callback that will be used when done
-        arguments.push(callback);
-        
-        fn.apply(context, arguments);
+    .site{
+        padding: 0;
+        margin-top: -20px;
     }
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+    #parallax_field{
+        overflow: hidden;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 370px;
+        width: 100%;
+    }
+    #parallax_field #parallax_bg {
+        position: absolute;
+        top: -20px;
+        left: -20px;
+        width: 110%;
+        height: 425px;
+        z-index: 1;
+    }
+    #parallax_illustration {
+        display:block;
+        width: 940px;
+        height: 370px;
+        position: relative;
+        overflow: hidden;
+        clear: both;
+    }
+    #parallax_illustration #parallax_error_text {
+        position: absolute;
+        top: 72px;
+        left: 72px;
+        z-index: 10;
+    }
+    #parallax_illustration #parallax_octocat {
+        position: absolute;
+        top: 94px;
+        left: 356px;
+        z-index: 9;
+    }
+    #parallax_illustration #parallax_speeder {
+        position: absolute;
+        top: 150px;
+        left: 432px;
+        z-index: 8;
+    }
+    #parallax_illustration #parallax_octocatshadow {
+        position: absolute;
+        top: 297px;
+        left: 371px;
+        z-index: 7;
+    }
+    #parallax_illustration #parallax_speedershadow {
+        position: absolute;
+        top: 263px;
+        left: 442px;
+        z-index: 6;
+    }
+    #parallax_illustration #parallax_building_1 {
+        position: absolute;
+        top: 73px;
+        left: 467px;
+        z-index: 5;
+    }
+    #parallax_illustration #parallax_building_2 {
+        position: absolute;
+        top: 113px;
+        left: 762px;
+        z-index: 4;
+    }
+    #footer {
+        margin-top: 0px;
+        z-index: 12;
+    }
+</style>
+
+
+<div id="parallax_field">
+    <img alt="building" class="js-plaxify" data-invert="true" data-xrange="0" data-yrange="20" height="415" id="parallax_bg" src="https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_bg.jpg?1315867479" width="940" />
+</div>
+<div id="parallax_illustration">
+  <img alt="404 | &ldquo;This is not the web page you are looking for&rdquo;" class="js-plaxify" data-xrange="20" data-yrange="10" height="249" id="parallax_error_text" src="https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_errortext.png?1315867479" width="271" />
+  <img alt="Octobi Wan Catnobi" class="js-plaxify" data-xrange="10" data-yrange="10" height="230" id="parallax_octocat" src="https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_octocat.png?1315867479" width="188" />
+  <img alt="land speeder" class="js-plaxify" data-xrange="10" data-yrange="10" height="156" id="parallax_speeder" src="https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_speeder.png?1315867479" width="440" />
+  <img alt="Octobi Wan Catnobi's shadow" class="js-plaxify" data-xrange="10" data-yrange="10" height="49" id="parallax_octocatshadow" src="https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_octocatshadow.png?1315867479" width="166" />
+  <img alt="land speeder's shadow" class="js-plaxify" data-xrange="10" data-yrange="10" height="75" id="parallax_speedershadow" src="https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_speedershadow.png?1315867479" width="430" />
+  <img alt="building" class="js-plaxify" data-invert="true" data-xrange="50" data-yrange="20" height="123" id="parallax_building_1" src="https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_building_1.png?1315867479" width="304" />
+  <img alt="building" class="js-plaxify" data-invert="true" data-xrange="75" data-yrange="30" height="50" id="parallax_building_2" src="https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_building_2.png?1315867479" width="116" />
+</div>
+
+          </div>
+          <div class="context-overlay"></div>
+        </div>
+
+      <!-- footer -->
+      <div id="footer" >
+        
+  <div class="upper_footer">
+     <div class="container clearfix">
+
+       <!--[if IE]><h4 id="blacktocat_ie">GitHub Links</h4><![endif]-->
+       <![if !IE]><h4 id="blacktocat">GitHub Links</h4><![endif]>
+
+       <ul class="footer_nav">
+         <h4>GitHub</h4>
+         <li><a href="https://github.com/about">About</a></li>
+         <li><a href="https://github.com/blog">Blog</a></li>
+         <li><a href="https://github.com/features">Features</a></li>
+         <li><a href="https://github.com/contact">Contact &amp; Support</a></li>
+         <li><a href="https://github.com/training">Training</a></li>
+         <li><a href="http://enterprise.github.com/">GitHub Enterprise</a></li>
+         <li><a href="http://status.github.com/">Site Status</a></li>
+       </ul>
+
+       <ul class="footer_nav">
+         <h4>Tools</h4>
+         <li><a href="http://get.gaug.es/">Gauges: Analyze web traffic</a></li>
+         <li><a href="http://speakerdeck.com">Speaker Deck: Presentations</a></li>
+         <li><a href="https://gist.github.com">Gist: Code snippets</a></li>
+         <li><a href="http://mac.github.com/">GitHub for Mac</a></li>
+         <li><a href="http://mobile.github.com/">Issues for iPhone</a></li>
+         <li><a href="http://jobs.github.com/">Job Board</a></li>
+       </ul>
+
+       <ul class="footer_nav">
+         <h4>Extras</h4>
+         <li><a href="http://shop.github.com/">GitHub Shop</a></li>
+         <li><a href="http://octodex.github.com/">The Octodex</a></li>
+       </ul>
+
+       <ul class="footer_nav">
+         <h4>Documentation</h4>
+         <li><a href="http://help.github.com/">GitHub Help</a></li>
+         <li><a href="http://developer.github.com/">Developer API</a></li>
+         <li><a href="http://github.github.com/github-flavored-markdown/">GitHub Flavored Markdown</a></li>
+         <li><a href="http://pages.github.com/">GitHub Pages</a></li>
+       </ul>
+
+     </div><!-- /.site -->
+  </div><!-- /.upper_footer -->
+
+<div class="lower_footer">
+  <div class="container clearfix">
+    <!--[if IE]><div id="legal_ie"><![endif]-->
+    <![if !IE]><div id="legal"><![endif]>
+      <ul>
+          <li><a href="https://github.com/site/terms">Terms of Service</a></li>
+          <li><a href="https://github.com/site/privacy">Privacy</a></li>
+          <li><a href="https://github.com/security">Security</a></li>
+      </ul>
+
+      <p>&copy; 2012 <span title="0.02694s from fe9.rs.github.com">GitHub</span> Inc. All rights reserved.</p>
+    </div><!-- /#legal or /#legal_ie-->
+
+      <div class="sponsor">
+        <a href="http://www.rackspace.com" class="logo">
+          <img alt="Dedicated Server" height="36" src="https://a248.e.akamai.net/assets.github.com/images/modules/footer/rackspaces_logo.png?1329521039" width="38" />
+        </a>
+        Powered by the <a href="http://www.rackspace.com ">Dedicated
+        Servers</a> and<br/> <a href="http://www.rackspacecloud.com">Cloud
+        Computing</a> of Rackspace Hosting<span>&reg;</span>
+      </div>
+  </div><!-- /.site -->
+</div><!-- /.lower_footer -->
+
+      </div><!-- /#footer -->
+
+    
+
+<div id="keyboard_shortcuts_pane" class="instapaper_ignore readability-extra" style="display:none">
+  <h2>Keyboard Shortcuts <small><a href="#" class="js-see-all-keyboard-shortcuts">(see all)</a></small></h2>
+
+  <div class="columns threecols">
+    <div class="column first">
+      <h3>Site wide shortcuts</h3>
+      <dl class="keyboard-mappings">
+        <dt>s</dt>
+        <dd>Focus site search</dd>
+      </dl>
+      <dl class="keyboard-mappings">
+        <dt>?</dt>
+        <dd>Bring up this help dialog</dd>
+      </dl>
+    </div><!-- /.column.first -->
+
+    <div class="column middle" style='display:none'>
+      <h3>Commit list</h3>
+      <dl class="keyboard-mappings">
+        <dt>j</dt>
+        <dd>Move selection down</dd>
+      </dl>
+      <dl class="keyboard-mappings">
+        <dt>k</dt>
+        <dd>Move selection up</dd>
+      </dl>
+      <dl class="keyboard-mappings">
+        <dt>c <em>or</em> o <em>or</em> enter</dt>
+        <dd>Open commit</dd>
+      </dl>
+      <dl class="keyboard-mappings">
+        <dt>y</dt>
+        <dd>Expand URL to its canonical form</dd>
+      </dl>
+    </div><!-- /.column.first -->
+
+    <div class="column last" style='display:none'>
+      <h3>Pull request list</h3>
+      <dl class="keyboard-mappings">
+        <dt>j</dt>
+        <dd>Move selection down</dd>
+      </dl>
+      <dl class="keyboard-mappings">
+        <dt>k</dt>
+        <dd>Move selection up</dd>
+      </dl>
+      <dl class="keyboard-mappings">
+        <dt>o <em>or</em> enter</dt>
+        <dd>Open issue</dd>
+      </dl>
+    </div><!-- /.columns.last -->
+
+  </div><!-- /.columns.equacols -->
+
+  <div style='display:none'>
+    <div class="rule"></div>
+
+    <h3>Issues</h3>
+
+    <div class="columns threecols">
+      <div class="column first">
+        <dl class="keyboard-mappings">
+          <dt>j</dt>
+          <dd>Move selection down</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>k</dt>
+          <dd>Move selection up</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>x</dt>
+          <dd>Toggle selection</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>o <em>or</em> enter</dt>
+          <dd>Open issue</dd>
+        </dl>
+      </div><!-- /.column.first -->
+      <div class="column middle">
+        <dl class="keyboard-mappings">
+          <dt>I</dt>
+          <dd>Mark selection as read</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>U</dt>
+          <dd>Mark selection as unread</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>e</dt>
+          <dd>Close selection</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>y</dt>
+          <dd>Remove selection from view</dd>
+        </dl>
+      </div><!-- /.column.middle -->
+      <div class="column last">
+        <dl class="keyboard-mappings">
+          <dt>c</dt>
+          <dd>Create issue</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>l</dt>
+          <dd>Create label</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>i</dt>
+          <dd>Back to inbox</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>u</dt>
+          <dd>Back to issues</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>/</dt>
+          <dd>Focus issues search</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div style='display:none'>
+    <div class="rule"></div>
+
+    <h3>Issues Dashboard</h3>
+
+    <div class="columns threecols">
+      <div class="column first">
+        <dl class="keyboard-mappings">
+          <dt>j</dt>
+          <dd>Move selection down</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>k</dt>
+          <dd>Move selection up</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>o <em>or</em> enter</dt>
+          <dd>Open issue</dd>
+        </dl>
+      </div><!-- /.column.first -->
+    </div>
+  </div>
+
+  <div style='display:none'>
+    <div class="rule"></div>
+
+    <h3>Network Graph</h3>
+    <div class="columns equacols">
+      <div class="column first">
+        <dl class="keyboard-mappings">
+          <dt><span class="badmono">←</span> <em>or</em> h</dt>
+          <dd>Scroll left</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt><span class="badmono">→</span> <em>or</em> l</dt>
+          <dd>Scroll right</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt><span class="badmono">↑</span> <em>or</em> k</dt>
+          <dd>Scroll up</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt><span class="badmono">↓</span> <em>or</em> j</dt>
+          <dd>Scroll down</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>t</dt>
+          <dd>Toggle visibility of head labels</dd>
+        </dl>
+      </div><!-- /.column.first -->
+      <div class="column last">
+        <dl class="keyboard-mappings">
+          <dt>shift <span class="badmono">←</span> <em>or</em> shift h</dt>
+          <dd>Scroll all the way left</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>shift <span class="badmono">→</span> <em>or</em> shift l</dt>
+          <dd>Scroll all the way right</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>shift <span class="badmono">↑</span> <em>or</em> shift k</dt>
+          <dd>Scroll all the way up</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>shift <span class="badmono">↓</span> <em>or</em> shift j</dt>
+          <dd>Scroll all the way down</dd>
+        </dl>
+      </div><!-- /.column.last -->
+    </div>
+  </div>
+
+  <div >
+    <div class="rule"></div>
+    <div class="columns threecols">
+      <div class="column first" >
+        <h3>Source Code Browsing</h3>
+        <dl class="keyboard-mappings">
+          <dt>t</dt>
+          <dd>Activates the file finder</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>l</dt>
+          <dd>Jump to line</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>w</dt>
+          <dd>Switch branch/tag</dd>
+        </dl>
+        <dl class="keyboard-mappings">
+          <dt>y</dt>
+          <dd>Expand URL to its canonical form</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div id="markdown-help" class="instapaper_ignore readability-extra">
+  <h2>Markdown Cheat Sheet</h2>
+
+  <div class="cheatsheet-content">
+
+  <div class="mod">
+    <div class="col">
+      <h3>Format Text</h3>
+      <p>Headers</p>
+      <pre>
+# This is an &lt;h1&gt; tag
+## This is an &lt;h2&gt; tag
+###### This is an &lt;h6&gt; tag</pre>
+     <p>Text styles</p>
+     <pre>
+*This text will be italic*
+_This will also be italic_
+**This text will be bold**
+__This will also be bold__
+
+*You **can** combine them*
+</pre>
+    </div>
+    <div class="col">
+      <h3>Lists</h3>
+      <p>Unordered</p>
+      <pre>
+* Item 1
+* Item 2
+  * Item 2a
+  * Item 2b</pre>
+     <p>Ordered</p>
+     <pre>
+1. Item 1
+2. Item 2
+3. Item 3
+   * Item 3a
+   * Item 3b</pre>
+    </div>
+    <div class="col">
+      <h3>Miscellaneous</h3>
+      <p>Images</p>
+      <pre>
+![GitHub Logo](/images/logo.png)
+Format: ![Alt Text](url)
+</pre>
+     <p>Links</p>
+     <pre>
+http://github.com - automatic!
+[GitHub](http://github.com)</pre>
+<p>Blockquotes</p>
+     <pre>
+As Kanye West said:
+
+> We're living the future so
+> the present is our past.
+</pre>
+    </div>
+  </div>
+  <div class="rule"></div>
+
+  <h3>Code Examples in Markdown</h3>
+  <div class="col">
+      <p>Syntax highlighting with <a href="http://github.github.com/github-flavored-markdown/" title="GitHub Flavored Markdown" target="_blank">GFM</a></p>
+      <pre>
+```javascript
+function fancyAlert(arg) {
+  if(arg) {
+    $.facebox({div:'#foo'})
+  }
+}
+```</pre>
+    </div>
+    <div class="col">
+      <p>Or, indent your code 4 spaces</p>
+      <pre>
+Here is a Python code example
+without syntax highlighting:
+
+    def foo:
+      if not bar:
+        return true</pre>
+    </div>
+    <div class="col">
+      <p>Inline code for comments</p>
+      <pre>
+I think you should use an
+`&lt;addr&gt;` element here instead.</pre>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+
+    <div class="ajax-error-message">
+      <p><span class="icon"></span> Something went wrong with that request. Please try again. <a href="javascript:;" class="ajax-error-dismiss">Dismiss</a></p>
+    </div>
+
+    <script src="https://a248.e.akamai.net/assets.github.com/javascripts/bundles/jquery-5b140862bd914d3619171dece9be92269c2b1fe1.js" type="text/javascript"></script>
+    <script src="https://a248.e.akamai.net/assets.github.com/javascripts/bundles/github-24d080082f56c23229d24ca8cdc0d3d5c9cd505d.js" type="text/javascript"></script>
+    
+
+    
+
     
     
     
-
-    var Form = Backbone.View.extend({
-        
-        //Field views
-        fields: null,
-
-        tagName: 'ul',
-        
-        className: 'bbf-form',
-
-        /**
-         * @param {Object}  Options
-         *      Required:
-         *          schema  {Array}
-         *      Optional:
-         *          model   {Backbone.Model} : Use instead of data, and use commit().
-         *          data    {Array} : Pass this when not using a model. Use getValue() to get out value
-         *          fields  {Array} : Keys of fields to include in the form, in display order (default: all fields)
-         */
-        initialize: function(options) {
-            this.schema = options.schema || (options.model ? options.model.schema : {}),
-            this.model = options.model;
-            this.data = options.data;
-            this.fieldsToRender = options.fields || _.keys(this.schema);
-            this.idPrefix = options.idPrefix || '';
-
-            //Stores all Field views
-            this.fields = {};
-        },
-
-        /**
-         * Renders the form and all fields
-         */
-        render: function() {
-            var schema = this.schema,
-                model = this.model,
-                data = this.data,
-                fieldsToRender = this.fieldsToRender,
-                fields = this.fields,
-                el = $(this.el),
-                self = this;
-
-            //Create form fields
-            _.each(fieldsToRender, function(key) {
-                var itemSchema = schema[key];
-
-                if (!itemSchema) throw "Field '"+key+"' not found in schema";
-
-                var options = {
-                    key: key,
-                    schema: itemSchema,
-                    idPrefix: self.idPrefix
-                };
-
-                if (model) {
-                    options.model = model;
-                } else if (data) {
-                    options.value = data[key];
-                } else {
-                    options.value = null;
-                }
-
-                var field = new Field(options);
-
-                //Render the fields with editors, apart from Hidden fields
-                if (itemSchema.type == 'Hidden') {
-                    field.editor = helpers.createEditor('Hidden', options);
-                } else {
-                    el.append(field.render().el);
-                }
-
-                fields[key] = field;
-            });
-
-            return this;
-        },
-
-        /**
-         * Update the model with all latest values.
-         *
-         * @return {Object}  Validation errors
-         */
-        commit: function() {
-            var fields = this.fields,
-                errors = {};
-
-            _.each(fields, function(field) {
-                var error = field.commit();
-                if (error) errors[field.key] = error;
-            });
-
-            return _.isEmpty(errors) ? null : errors;
-        },
-
-        /**
-         * Get all the field values as an object.
-         * Use this method when passing data instead of objects
-         * 
-         * @param {String}  To get a specific field value pass the key name
-         */
-        getValue: function(key) {
-            if (key) {
-                //Return given key only
-                return this.fields[key].getValue();
-            } else {
-                //Return entire form data
-                var schema = this.schema,
-                    fields = this.fields
-                    obj = {};
-
-                _.each(fields, function(field) {
-                    obj[field.key] = field.getValue();
-                });
-
-                return obj;
-            }
-        },
-        
-        /**
-         * Update field values, referenced by key
-         * @param {Object}  New values to set
-         */
-        setValue: function(data) {
-            for (var key in data) {
-                this.fields[key].setValue(data[key]);
-            }
-        },
-
-        /**
-         * Override default remove function in order to remove embedded views
-         */
-        remove: function() {
-            var fields = this.fields;
-            
-            for (var key in fields) {
-                fields[key].remove();
-            }
-
-            Backbone.View.prototype.remove.call(this);
-        }
-
-    });
-
-
-    var Field = Backbone.View.extend({
-
-        tagName: 'li',
-
-        className: 'bbf-field',
-
-        events: {
-            'click label': 'logValue'
-        },
-        
-        template: helpers.createTemplate('\
-             <label for="{{id}}">{{title}}</label>\
-             <div class="bbf-editor"></div>\
-        '),
-
-        /**
-         * @param {Object}  Options
-         *      Required:
-         *          key     {String} : The model attribute key
-         *      Optional:
-         *          schema  {Object} : Schema for the field
-         *          value       {Mixed} : Pass value when not using a model. Use getValue() to get out value
-         *          model       {Backbone.Model} : Use instead of value, and use commit().
-         *          idPrefix    {String} : Prefix to add to the editor DOM element's ID
-         */
-        initialize: function(options) {
-            this.key = options.key;
-            this.schema = options.schema || {};
-            this.value = options.value;
-            this.model = options.model;
-            this.idPrefix = options.idPrefix || '';
-
-            //Set schema defaults
-            var schema = this.schema;
-            if (!schema.type) schema.type = 'Text';
-            if (!schema.title) schema.title = helpers.keyToTitle(this.key);
-        },
-
-        render: function() {
-            var schema = this.schema,
-                el = $(this.el);
-
-            //Standard options that will go to all editors
-            var options = {
-                key: this.key,
-                schema: schema,
-                idPrefix: this.idPrefix,
-                id: this.idPrefix + this.key
-            };
-
-            //Decide on data delivery type to pass to editors
-            if (this.model)
-                options.model = this.model;
-            else
-                options.value = this.value;
-
-            //Decide on the editor to use
-            var editor = helpers.createEditor(schema.type, options);
-
-            el.html(this.template({
-                key: this.key,
-                title: schema.title,
-                id: editor.id
-            }));
-
-            //Add the editor
-            $('.bbf-editor', el).html(editor.render().el);
-
-            this.editor = editor;
-
-            return this;
-        },
-
-        /**
-         * Update the model with the new value from the editor
-         */
-        commit: function() {
-            return this.editor.commit();
-        },
-
-        /**
-         * Get the value from the editor
-         * @return {Mixed}
-         */
-        getValue: function() {
-            return this.editor.getValue();
-        },
-        
-        /**
-         * Set/change the value of the editor
-         */
-        setValue: function(value) {
-            this.editor.setValue(value);
-        },
-
-        logValue: function() {
-            console.log(this.getValue());
-        },
-
-        remove: function() {
-            this.editor.remove();
-
-            Backbone.View.prototype.remove.call(this);
-        }
-
-    });
-
-
-
-
-    //========================================================================
-    //EDITORS
-    //========================================================================
-
-    var editors = {};
-
-    /**
-     * Base editor (interface). To be extended, not used directly
-
-     * @param {Object}  Options
-     *      Optional:
-     *         model   {Backbone.Model} : Use instead of value, and use commit().
-     *         key     {String} : The model attribute key. Required when using 'model'
-     *         value   {String} : When not using a model. If neither provided, defaultValue will be used.
-     *         schema  {Object} : May be required by some editors
-     */
-    editors.Base = Backbone.View.extend({
-
-        defaultValue: null,
-
-        initialize: function(options) {
-            var options = options || {};
-
-            if (options.model) {
-                if (!options.key) throw "Missing option: 'key'";
-
-                this.model = options.model;
-                this.key = options.key;
-
-                this.value = this.model.get(this.key);
-            }
-            else if (options.value)
-                this.value = options.value;
-            
-            if (this.value === undefined) this.value = this.defaultValue;
-
-            this.schema = options.schema;
-        },
-
-        getValue: function() {
-            throw 'Not implemented. Extend and override this method.';
-        },
-        
-        setValue: function() {
-            throw 'Not implemented. Extend and override this method.';
-        },
-
-        /**
-         * Update the model with the new value from the editor
-         *
-         * @return {Error|null} Validation error or null
-         */
-        commit: function() {
-            var el = $(this.el),
-                change = {};
-
-            change[this.key] = this.getValue();
-
-            var error = null
-            this.model.set(change, {
-                error: function(model, e) {
-                    error = e;
-                }
-            });
-
-            if (error)
-                el.addClass('bbf-error');
-            else
-                el.removeClass('bbf-error');
-
-            return error;
-        }
-
-    });
-
-    editors.Text = editors.Base.extend({
-
-        tagName: 'input',
-
-        defaultValue: '',
-        
-        initialize: function(options) {
-            editors.Base.prototype.initialize.call(this, options);
-
-            $(this.el).attr('type', 'text');
-        },
-
-        /**
-         * Adds the editor to the DOM
-         */
-        render: function() {
-            this.setValue(this.value);
-
-            return this;
-        },
-
-        /**
-         * Returns the current editor value
-         * @return {String}
-         */
-        getValue: function() {
-            return $(this.el).val();
-        },
-        
-        /**
-         * Sets the value of the form element
-         * @param {String}
-         */
-        setValue: function(value) {
-            $(this.el).val(value);
-        }
-
-    });
-
-
-    /**
-     * Normal text input that only allows a number. Letters etc. are not entered
-     */
-    editors.Number = editors.Text.extend({
-
-        defaultValue: 0,
-
-        events: {
-            'keypress': 'onKeyPress'
-        },
-
-        /**
-         * Check value is numeric
-         */
-        onKeyPress: function(event) {        
-            var newVal = $(this.el).val() + String.fromCharCode(event.keyCode);
-
-            var numeric = /^[0-9]*\.?[0-9]*?$/.test(newVal);
-
-            if (!numeric) event.preventDefault();
-        },
-
-        getValue: function() {        
-            var value = $(this.el).val();
-            
-            return value === "" ? null : parseFloat(value, 10);
-        },
-        
-        setValue: function(value) {
-            value = value === null ? null : parseFloat(value, 10);
-            
-            editors.Text.prototype.setValue.call(this, value);
-        }
-
-    });
-
-
-    editors.Password = editors.Text.extend({
-
-        initialize: function(options) {
-            editors.Text.prototype.initialize.call(this, options);
-
-            $(this.el).attr('type', 'password');
-        }
-
-    });
-
-
-    editors.TextArea = editors.Text.extend({
-
-       tagName: 'textarea',
-
-    });
-    
-    
-    editors.Hidden = editors.Base.extend({
-        
-        defaultValue: '',
-
-        initialize: function(options) {
-            editors.Text.prototype.initialize.call(this, options);
-
-            $(this.el).attr('type', 'hidden');
-        },
-        
-        getValue: function() {
-            return this.value;
-        },
-        
-        setValue: function(value) {
-            this.value = value;
-        }
-
-    });
-
-
-    /**
-     * Renders a <select> with given options
-     *
-     * Requires an 'options' value on the schema.
-     *  Can be an array of options, a function that calls back with the array of options, a string of HTML
-     *  or a Backbone collection. If a collection, the models must implement a toString() method
-     */
-    editors.Select = editors.Base.extend({
-
-        tagName: 'select',
-
-        initialize: function(options) {
-            editors.Base.prototype.initialize.call(this, options);
-
-            if (!this.schema || !this.schema.options)
-                throw "Missing required 'schema.options'";
-        },
-
-        render: function() {
-            var options = this.schema.options,
-                self = this;
-
-            //If a collection was passed, check if it needs fetching
-            if (options instanceof Backbone.Collection) {
-                var collection = options;
-
-                //Don't do the fetch if it's already populated
-                if (collection.length > 0) {
-                    self.renderOptions(options);
-                } else {
-                    collection.fetch({
-                        success: function(collection) {
-                            self.renderOptions(options);
-                        }
-                    });
-                }
-            }
-
-            //If a function was passed, run it to get the options
-            else if (_.isFunction(options)) {
-                options(function(result) {
-                    self.renderOptions(result);
-                });
-            }
-
-            //Otherwise, ready to go straight to renderOptions
-            else {
-                self.renderOptions(options);
-            }
-
-            return this;
-        },
-
-        /**
-         * Adds the <option> html to the DOM
-         * @param {Mixed}   Options as a simple array e.g. ['option1', 'option2']
-         *                      or as an array of objects e.g. [{val: 543, label: 'Title for object 543'}]
-         *                      or as a string of <option> HTML to insert into the <select>
-         */
-        renderOptions: function(options) {
-            var $select = $(this.el),
-                html;
-
-            //Accept string of HTML
-            if (_.isString(options)) {
-                html = options;
-            }
-
-            //Or array
-            else if (_.isArray(options)) {
-                html = this._arrayToHtml(options);
-            }
-
-            //Or Backbone collection
-            else if (options instanceof Backbone.Collection) {
-                html = this._collectionToHtml(options)
-            }
-
-            //Insert options
-            $select.html(html);
-
-            //Select correct option
-            this.setValue(this.value);
-        },
-
-        getValue: function() {
-            return $(this.el).val();
-        },
-        
-        setValue: function(value) {
-            $(this.el).val(value);
-        },
-
-        /**
-         * Transforms a collection into HTML ready to use in the renderOptions method
-         * @param {Backbone.Collection} 
-         * @return {String}
-         */
-        _collectionToHtml: function(collection) {
-            //Convert collection to array first
-            var array = [];
-            collection.each(function(model) {
-                array.push({ val: model.id, label: model.toString() });
-            });
-
-            //Now convert to HTML
-            var html = this._arrayToHtml(array);
-
-            return html;
-        },
-
-        /**
-         * Create the <option> HTML
-         * @param {Array}   Options as a simple array e.g. ['option1', 'option2']
-         *                      or as an array of objects e.g. [{val: 543, label: 'Title for object 543'}]
-         * @return {String} HTML
-         */
-        _arrayToHtml: function(array) {
-            var html = [];
-
-            //Generate HTML
-            _.each(array, function(option) {
-                if (_.isObject(option)) {
-                    var val = option.val ? option.val : '';
-                    html.push('<option value="'+val+'">'+option.label+'</option>');
-                }
-                else {
-                    html.push('<option>'+option+'</option>');
-                }
-            });
-
-            return html.join('');
-        },
-
-    });
-
-
-
-
-    /**
-     * Creates a child form. For editing Javascript objects
-     * 
-     * Special options:
-     *   schema.subSchema:    Subschema for object.
-     *   idPrefix, 
-     */
-    editors.Object = editors.Base.extend({
-
-        className: 'bbf-object',
-
-        defaultValue: {},
-
-        initialize: function(options) {
-            editors.Base.prototype.initialize.call(this, options);
-
-            if (!this.schema.subSchema)
-                throw "Missing required 'schema.subSchema' option for Object editor";
-
-            this.idPrefix = options.idPrefix || '';
-        },
-
-        render: function() {
-            var el = $(this.el),
-                data = this.value || {},
-                key = this.key,
-                schema = this.schema,
-                objSchema = schema.subSchema;
-
-            this.form = new Form({
-                schema: objSchema,
-                data: data,
-                idPrefix: this.idPrefix + this.key + '_'
-            });
-
-            //Render form
-            el.html(this.form.render().el);
-
-            return this;
-        },
-
-        getValue: function() {
-            return this.form.getValue();
-        },
-        
-        setValue: function(value) {
-            this.value = value;
-            
-            this.render();
-        },
-
-        remove: function() {
-            this.form.remove();
-
-            Backbone.View.prototype.remove.call(this);
-        }
-
-    });
-
-
-    /**
-     * Creates a child form. For editing nested Backbone models
-     * 
-     * Special options:
-     *   schema.model:   Embedded model constructor
-     */
-    editors.NestedModel = editors.Object.extend({
-
-        initialize: function(options) {
-            editors.Base.prototype.initialize.call(this, options);
-
-            if (!options.schema.model)
-                throw 'Missing required "schema.model" option for NestedModel editor';
-
-            this.idPrefix = options.idPrefix || '';
-        },
-
-        render: function() {
-            var el = $(this.el),
-                data = this.value || {},
-                key = this.key,
-                nestedModel = this.schema.model,
-                nestedModelSchema = (nestedModel).prototype.schema;
-
-            this.form = new Form({
-                schema: nestedModelSchema,
-                model: new nestedModel(data),
-                idPrefix: this.idPrefix + this.key + '_'
-            });
-
-            //Render form
-            el.html(this.form.render().el);
-
-            return this;
-        },
-
-        /**
-         * Update the embedded model, checking for nested validation errors and pass them up
-         * Then update the main model if all OK
-         *
-         * @return {Error|null} Validation error or null
-         */
-        commit: function() {
-            var error = this.form.commit();
-            if (error) {
-                $(this.el).addClass('error');
-                return error;
-            }
-
-            return editors.Object.prototype.commit.call(this);
-        }
-
-    });
-    
-    
-    //Exports
-    Form.helpers = helpers;
-    Form.Field = Field;
-    Form.editors = editors;
-    Backbone.Form = Form;
-
-})();
+    <span id='server_response_time' data-time='0.03001' data-host='fe9'></span>
+  </body>
+</html>
